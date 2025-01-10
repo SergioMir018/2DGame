@@ -39,12 +39,12 @@ public class Player extends Entity {
             right1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/boy_right_1.png")));
             right2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/boy_right_2.png")));
         } catch (IOException | NullPointerException e) {
-            throw new RuntimeException("Error al cargar imágenes de jugador: " + e.getMessage());
+            throw new RuntimeException("Error on loading player sprites: " + e.getMessage());
         }
     }
 
     public void update() {
-        if (keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed == true) {
+        if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
             if (keyH.upPressed) {
                 direction = "up";
                 y -= speed;
