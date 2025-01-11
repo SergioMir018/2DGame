@@ -23,6 +23,8 @@ public class Player extends Entity {
         screenX = gp.screenWidth / 2 - gp.tileSize / 2;
         screenY = gp.screenHeight / 2 - gp.tileSize / 2;
 
+        collisionArea = new Rectangle(8, 16, 32, 32);
+
         setDefaultValues();
         getPlayerImage();
     }
@@ -53,22 +55,39 @@ public class Player extends Entity {
         if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
             if (keyH.upPressed) {
                 direction = "up";
-                worldY -= speed;
             }
 
             if (keyH.downPressed) {
                 direction = "down";
-                worldY += speed;
             }
 
             if (keyH.leftPressed) {
                 direction = "left";
-                worldX -= speed;
             }
 
             if (keyH.rightPressed) {
                 direction = "right";
-                worldX += speed;
+            }
+
+            collisionOn = false;
+            gp.collisionChecker.checkTile(this);
+            System.out.println(collisionOn);
+
+            if (!collisionOn) {
+                switch (direction) {
+                    case "up":
+                        worldY -= speed;
+                        break;
+                    case "down":
+                        worldY += speed;
+                        break;
+                    case "left":
+                        worldX -= speed;
+                        break;
+                    case "right":
+                        worldX += speed;
+                        break;
+                }
             }
 
             spriteCounter++;
@@ -118,5 +137,13 @@ public class Player extends Entity {
         }
 
         g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+
+        g2.setColor(Color.RED); // Establece el color del rectángulo (puedes cambiarlo)
+        g2.drawRect(
+                screenX + collisionArea.x,
+                screenY + collisionArea.y,
+                collisionArea.width,
+                collisionArea.height
+        );
     }
 }

@@ -13,8 +13,8 @@ import java.util.Objects;
 
 public class TileManager {
     GamePanel gp;
-    Tile[] tiles;
-    int[][] mapTileMatrix;
+    public Tile[] tiles;
+    public int[][] mapTileMatrix;
 
     public TileManager(GamePanel gp) {
         this.gp = gp;
@@ -32,15 +32,18 @@ public class TileManager {
 
             tiles[1] = new Tile();
             tiles[1].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/wall.png")));
+            tiles[1].collision = true;
 
             tiles[2] = new Tile();
             tiles[2].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/water00.png")));
+            tiles[2].collision = true;
 
             tiles[3] = new Tile();
             tiles[3].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/earth.png")));
 
             tiles[4] = new Tile();
             tiles[4].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/tree.png")));
+            tiles[4].collision = true;
 
             tiles[5] = new Tile();
             tiles[5].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/road00.png")));
@@ -87,6 +90,15 @@ public class TileManager {
                     worldY - gp.tileSize < gp.player.worldY + gp.player.screenY
             ) {
                 g2.drawImage(tiles[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+                if (tiles[tileNum].collision) {
+                    g2.setColor(Color.RED); // Establece el color del rectángulo (puedes cambiarlo)
+                    g2.drawRect(
+                            screenX,
+                            screenY,
+                            gp.tileSize,
+                            gp.tileSize
+                    );
+                }
             }
 
             worldCol++;
